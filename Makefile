@@ -1,5 +1,14 @@
 all: directories downloads freshdata
 
+
+
+clean:
+	-rm -rf ./data
+	-rm -rf ./tmp
+
+greeting:
+	echo 'hello'
+
 directories:
 	-mkdir tmp
 	-mkdir data
@@ -10,20 +19,5 @@ downloads:
 
 freshdata:
 	node imf_to_csv.js
-
-clean:
-	-rm -rf ./data
-	-rm -rf ./tmp
-
-greeting:
-	echo 'hello'
-
-filecheck:
-		curl "https://s3.amazonaws.com/media.johnkeefe.net/class-modules/inflation.csv" -o tmp/previous.csv
-
-		cmp --silent ./tmp/previous.csv ./data/inflation.csv || \
-		curl -X POST -H 'Content-type: application/json' \
-		--insecure \
-		--data '{"text":"The file you asked me to watch has changed!"}' $$SLACK_WEBHOOK
 
 
